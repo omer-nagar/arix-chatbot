@@ -1,0 +1,27 @@
+[
+  {
+      "type": "multilabel",
+      "name": "referenced_fields",
+      "description": "that are being referenced by the user in the conversation on init - all initiated fields should be included",
+      "class_definitions": "__FIELDS__"
+  },
+  {
+      "type": "multiclass",
+      "name": "user_approved",
+      "description": "true if the user confirmed or agreed with the assistant’s summary",
+      "class_definitions": {
+          "approved": "user provided all information, and approved the assistant's summary",
+          "not_approved": "user did not confirm the assistant's summary"
+      }
+  },
+  {
+      "type": "text_generation",
+      "name": "assistant_response",
+      "description": "the assistant’s next message — either a follow-up question or a confirmation summary phrased naturally"
+  },
+  {
+    "type": "text_generation",
+    "name": "history",
+    "description": "the updated conversation history including all relevant previous turns and the latest user message"
+  }
+]

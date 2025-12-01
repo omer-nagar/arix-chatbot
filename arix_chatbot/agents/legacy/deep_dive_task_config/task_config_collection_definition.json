@@ -1,0 +1,37 @@
+[
+  {
+      "type": "text_generation",
+      "name": "task_name",
+      "description": "Name for the multi-class labeling task (up to 6 words)."
+  },
+  {
+      "type": "text_generation",
+      "name": "detailed_task_definition",
+      "description": "Airtight, objective definition of the main multi-class task"
+  },
+  {
+    "type": "recurrent",
+    "name": "class_criteria",
+    "tasks": [
+      {
+        "type": "text_generation",
+        "name": "name",
+        "description": "exact name of one of the classes in the multi-class labeling task"
+      },
+      {
+        "type": "text_generation",
+        "name": "definition",
+        "description": "Airtight, Structured definition for the class"},
+      {
+        "type": "list",
+        "name": "policies",
+        "description": "Ordered list of suggested deterministic inclusion/exclusion rules and other policies for the class."
+      }
+    ]
+  },
+  {
+      "type": "list",
+      "name": "global_guidelines",
+      "description": "Ordered list of suggested deterministic global rules covering precedence rules, tie-breakers, contradictory input, multi-topic input, no-valid-evidence behavior, multiple-label signal handling, and prohibited assumptions."
+  }
+]

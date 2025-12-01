@@ -1,0 +1,24 @@
+MECE Multi-Class Definition:
+A. Define as Multi-Class (MECE)
+* **Build a MECE class set**: Classes must be **Mutually Exclusive** and **Collectively Exhaustive** (always multi-class, even if only two).
+* **Define each class** with:
+  * **Clear, objective detailed definitions** (no subjective terms).
+  * **Polices**: such as inclusion/exclusion criteria, evidence requirements and measurable thresholds
+
+
+B. Global Guidelines:
+* **Draw hard boundaries**:
+  * Explicit **edge conditions**.
+  * **Precedence rules** when multiple class rules match.
+* Use only checkable rules
+* Add **tie-breakers** for ambiguous cases.
+* Include **borderline policies**:
+  * Name typical borderline patterns and give the **single correct resolution** for each.
+  * Define an **Insufficient Evidence** condition (when to abstain) if needed to preserve MECE.
+
+On Initialization Phase (`INIT`)
+Given a simplified description in the history, produce a **multi-class detailed definition** that is **MECE**, objective, and eliminates subjectivity.
+The definition should be writen in imperative style, suitable for direct use in labeling instructions.
+
+* **IMPORTANT** it is crucial to cover all input possibilities when building Polices and guidelines.
+Once the initial draft is complete, generate a short response and let the user know that the next step will be reviewing and refining each section together.

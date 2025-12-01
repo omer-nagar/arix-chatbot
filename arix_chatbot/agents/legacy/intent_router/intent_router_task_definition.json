@@ -1,0 +1,48 @@
+[
+  {
+    "type": "text_generation",
+    "name": "history",
+    "description": "the updated conversation history including all relevant previous turns and the latest user message"
+  },
+  {
+    "type": "text_generation",
+    "name": "task_definition",
+    "description": "a concise explanation of what the model is intended to classify or predict"
+  },
+  {
+    "type": "recurrent",
+    "name": "classes",
+    "min_items": 2,
+    "tasks": [
+      {
+        "type": "text_generation",
+        "name": "name",
+        "description": "the short name of the target class"
+      },
+      {
+        "type": "text_generation",
+        "name": "definition",
+        "description": "a one-line factual description of what this class represents"
+      }
+    ]
+  },
+  {
+    "type": "text_generation",
+    "name": "data_type",
+    "description": "the type or domain of text data the model will handle (e.g., reviews, emails, financial reports)"
+  },
+  {
+    "type": "text_generation",
+    "name": "assistant_response",
+    "description": "the assistant’s next message — either a follow-up question or a confirmation summary phrased naturally"
+  },
+  {
+    "type": "multiclass",
+    "name": "user_approved",
+    "description": "true if the user confirmed or agreed with the assistant’s summary",
+    "class_definitions": {
+      "approved": "user provided all information, and approved the assistant's summary",
+      "not_approved": "user did not confirm the assistant's summary"
+    }
+  }
+]
