@@ -23,7 +23,8 @@ class AiFactoryPipeline:
         self._initial_agent = initial_agent or self._initial_agent
 
         if run_id:
-            assert self.state_store.get_state(run_id) is not None, f"Run ID {run_id} does not exist."
+            state = self.state_store.get_state(run_id)
+            assert state is not None, f"Run ID {run_id} does not exist."
         else:
             run_id = str(uuid.uuid4())
             state = SessionState(
@@ -45,18 +46,15 @@ class AiFactoryPipeline:
             # Store state
             self.state_store.store_state(run_id, state)
 
-        # self.active_runs[run_id] = state
-
         # Process with initial agent
-        state = await self.process_run(run_id)
+        state = await self.process_run(run_id, state)
 
         return state
 
-    async def process_run(self, run_id: str) -> SessionState:
+    async def process_run(self, run_id: str, state) -> SessionState:
         """Process a run with the current owner agent."""
 
-        state = self.state_store.get_state(run_id)
-        state.user_outbox = []
+        # state.user_outbox = []
         if not state:
             raise ValueError(f"Run {run_id} not found")
 
@@ -74,13 +72,11 @@ class AiFactoryPipeline:
         self.state_store.store_state(run_id, state)
 
         # Process agent response
-        await self.process_agent_response(run_id)
-        new_state = self.state_store.get_state(run_id)
+        new_state = await self.process_agent_response(run_id, state)
         return new_state
 
-    async def process_agent_response(self, run_id: str):
+    async def process_agent_response(self, run_id: str, state):
         """Process the response from an agent."""
-        state = self.state_store.get_state(run_id)
         prev_owner = state.owner_agent_id
 
         print(f"Processing response")
@@ -96,7 +92,7 @@ class AiFactoryPipeline:
             # Save the handoff state before moving on
             self.state_store.store_state(run_id, state)
             # Continue processing with the new owner agent
-            return await self.process_run(run_id)
+            return await self.process_run(run_id, state)
 
         elif state.status == SessionStatus.WAIT_HUMAN:
             print(f"WAIT_HUMAN\n===")
@@ -145,7 +141,7 @@ class AiFactoryPipeline:
         # Resume processing
         state.status = SessionStatus.HANDOFF
         self.state_store.store_state(run_id, state)
-        return await self.process_run(run_id)
+        return await self.process_run(run_id, state)
 
     async def get_run_state(self, run_id: str) -> Optional[Dict[str, Any]]:
         """Get the current state of a run."""

@@ -1,3 +1,4 @@
+from arix_chatbot.agents.agent_ids import AgentID
 from arix_chatbot.jobs.job import Job, JobStatus
 from arix_chatbot.state_manager.state_store import SessionState, SessionStatus
 from typing import Dict, Any, Optional
@@ -65,11 +66,11 @@ class BaseAgent(ABC):
         :param msg: The message to send
         :param mode: "overwrite"|"append" - whether to overwrite or append to existing messages.
         """
-        if recipient == "user":
+        if recipient == AgentID.user:
             assert "type" in msg and "msg" in msg, "User message must contain 'type' and 'msg' fields"
             msg["from"] = self.agent_id if sender is None else sender
 
-            if state.user_outbox is not  None and len(state.user_outbox) != 0 and mode == "overwrite":
+            if state.user_outbox is not None and len(state.user_outbox) != 0 and mode == "overwrite":
                 # raise warning - previous message will be overwritten
                 self.logger.warning("Overwriting existing user outbox message")
 

@@ -15,13 +15,20 @@ class UserIntentRouter(Worker):
         super().__init__(manager_id)
 
     async def process_task(self, state: SessionState) -> Tuple[SessionState, WorkerStatus]:
-
         current_job: UserIntentRouterJob = self.get_last_pending_job(state)
+
+        turn_index = state.turn_index
+        last_user_message = state.last_user_message.get('msg', None)
+
+        if turn_index <= 1 and last_user_message in [None, '']:
+            state.set_job_status(current_job.job_id, JobStatus.SUCCESS)
+            return state, WorkerStatus.COMPLETED
+
         job_id = str(uuid.uuid4())
         state.add_job(Job(
             job_id=job_id,
             report_to=current_job.report_to,
-            worker_id="BALA_BALA",
+            worker_id=aid.LLM_TASK_INITIALIZER,
             status=JobStatus.SUCCESS,
             turn_index=state.turn_index
         ))

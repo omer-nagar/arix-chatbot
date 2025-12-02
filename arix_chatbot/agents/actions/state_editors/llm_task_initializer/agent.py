@@ -7,8 +7,8 @@ from typing import Tuple
 import uuid
 
 
-class UserIntentRouter(Worker):
-    agent_id: str = aid.USER_INTENT_ROUTER
+class LlmTaskInitializer(Worker):
+    agent_id: str = aid.LLM_TASK_INITIALIZER
 
     def __init__(self, manager_id: str = aid.MAIN_ACTION_HANDLER):
         super().__init__(manager_id)
@@ -26,4 +26,4 @@ class UserIntentRouter(Worker):
         ))
         state.update_job(current_job.job_id, user_followup_jobs=[job_id])
         state.set_job_status(current_job.job_id, JobStatus.SUCCESS)
-        return state, WorkerStatus.COMPLETED
+        return state, WorkerStatus.WAIT_HUMAN

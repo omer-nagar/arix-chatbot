@@ -69,7 +69,7 @@ class MainChatOrchestrator(Navigator):
         if aid.user in inbox:
             state.turn_index += 1
             user_message = inbox[aid.user]
-            state.last_user_message = user_message
+            state.last_user_message = user_message[-1]
             return state, self.assign_pipeline_jobs(state)
 
         # check if all jobs are completed -> send response to user and complete session
@@ -79,7 +79,7 @@ class MainChatOrchestrator(Navigator):
             error_response = "opps, something went wrong. Please try again later."
             system_response = error_response if system_response is None else system_response
             self.send_message(state, aid.user, compose_message(msg_type=MessageType.CHAT, content=system_response))
-            state.set_status(SessionStatus.COMPLETED)
 
         # nothing to do, wait for user input
+        state.set_status(SessionStatus.WAIT_HUMAN)
         return state, None

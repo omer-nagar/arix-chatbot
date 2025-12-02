@@ -13,8 +13,8 @@ class MessageType:
 
 def compose_message(msg_type: MessageType, content: Any) -> Dict[str, Any]:
     return {
-        "type": msg_type.value,
-        "content": content
+        "type": msg_type,
+        "msg": content
     }
 
 
@@ -48,6 +48,17 @@ class SessionState:
 
     # GLOBAL CONTEXT
     global_context: Dict[str, Any] = field(default_factory=dict)
+
+    # ASSIGNMENT DATA
+    task_goal: Dict[str, Any] = field(default_factory=dict)
+    input_data_description: str = ""
+    task_detailed_instructions: Dict[str, Any] = field(default_factory=dict)
+    task_global_guidelines: Dict[str, Any] = field(default_factory=dict)
+    task_author_notes: str = ""
+
+    # DATA SCHEMA
+    input_data_schema: Dict[str, Any] = field(default_factory=dict)
+    output_data_schema: Dict[str, Any] = field(default_factory=dict)
 
     # STATE DATA
     pipeline: List[str] = field(default_factory=list)

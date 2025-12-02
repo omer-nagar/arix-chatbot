@@ -31,19 +31,21 @@ class MainActionHandler(Navigator):
             return state, [aid.USER_INTENT_ROUTER]
 
         ## STEP 2: Assign follow-up jobs to respective agents
-        user_intent_router_job = state.get_job(aid.USER_INTENT_ROUTER)
-        if user_intent_router_job is not None:
-            todos = user_intent_router_job.user_followup_jobs
+        intent_router_done = state.get_job(aid.USER_INTENT_ROUTER) and state.job_status.get(aid.USER_INTENT_ROUTER, None) == JobStatus.SUCCESS
+
+        if intent_router_done:
+            todos = state.get_job(aid.USER_INTENT_ROUTER).user_followup_jobs
+
+            # nothing to do
+            if todos is None or len(todos) == 0:
+                return state, None
+
             next_agents = []
             for job_id in todos:
                 job = state.get_job(job_id)
                 next_agents.append(job.worker_id)
                 state.set_job_status(job.job_id, JobStatus.ASSIGNED_TO_AGENT)
             return state, next_agents
-
-        managed_jobs = self.get_jobs(state, role="managed")
-        if all([job.status in [JobStatus.SUCCESS, JobStatus.FAILED] for job in managed_jobs]):
-            state.set_status(SessionStatus.COMPLETED)
 
         return state, None
 
