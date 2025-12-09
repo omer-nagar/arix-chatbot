@@ -1,34 +1,12 @@
 [
   {
-    "name": "guidelines",
-    "type": "recurrent",
-    "description": "List of cross-cutting Global Guidelines for the task, each tagged with a guideline type and written as a concise declarative statement.",
-    "tasks": [
-      {
-        "name": "type",
-        "type": "multiclass",
-        "description": "Guideline category label indicating the role of this guideline.",
-        "class_definitions": {
-          "principle": "Fundamental, must-follow rules that apply across all decisions and outputs.",
-          "preference": "Soft preferences used to break ties between multiple valid outputs.",
-          "consistency": "Guidance on staying uniform across examples, annotators, and time.",
-          "ambiguity": "Policies for handling unclear, incomplete, or borderline inputs or cases.",
-          "tradeoff": "Global rules for handling trade-offs (e.g., precision vs recall, coverage vs strictness).",
-          "style": "Guidance on tone, phrasing, determinism, and overall output style.",
-          "pitfall": "Common mistakes and failure modes to be aware of and avoid.",
-          "other": "Any other cross-cutting guideline that does not fit the above categories."
-        }
-      },
-      {
-        "name": "content",
-        "type": "text_generation",
-        "description": "One concise guideline sentence or short paragraph, expressed in neutral declarative form and applying across the entire task."
-      }
-    ]
+    "name": "author_notes",
+    "type": "text_generation",
+    "description": "Author’s Note section in markdown, 1–3 lines, written in the task designer’s voice summarizing the key priorities and trade-offs for the task."
   },
   {
     "name": "missing_info",
     "type": "text_generation",
-    "description": "Plain-text description of missing information, open questions, or ambiguities that need to be resolved to fully specify the Global Guidelines. If nothing important is missing, respond with a short explicit statement such as 'None'."
+    "description": "Plain-text description of the most important missing information, ambiguities, or open decisions needed to finalize the task spec. Use the single word 'none' if nothing important is missing."
   }
 ]

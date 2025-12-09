@@ -11,7 +11,7 @@ from pathlib import Path
 class InputSchemaEditor(Worker):
     agent_id: str = aid.INPUT_SCHEMA_EDITOR
 
-    def __init__(self, manager_id: str = aid.MAIN_ACTION_HANDLER):
+    def __init__(self, manager_id: str = aid.MAIN):
         super().__init__(manager_id)
 
     async def process_task(self, state: SessionState) -> Tuple[SessionState, WorkerStatus]:

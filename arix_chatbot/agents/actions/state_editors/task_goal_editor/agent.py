@@ -14,7 +14,7 @@ import json
 class TaskGoalEditor(Worker):
     agent_id: str = aid.TASK_GOAL_EDITOR
 
-    def __init__(self, manager_id: str = aid.MAIN_ACTION_HANDLER):
+    def __init__(self, manager_id: str = aid.MAIN):
         super().__init__(manager_id)
 
     async def process_task(self, state: SessionState, system_response_request=None) -> Tuple[SessionState, WorkerStatus]:

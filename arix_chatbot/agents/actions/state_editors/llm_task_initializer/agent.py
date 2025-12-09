@@ -10,7 +10,7 @@ import uuid
 class LlmTaskInitializer(Worker):
     agent_id: str = aid.LLM_TASK_INITIALIZER
 
-    def __init__(self, manager_id: str = aid.MAIN_ACTION_HANDLER):
+    def __init__(self, manager_id: str = aid.MAIN):
         super().__init__(manager_id)
 
     async def process_task(self, state: SessionState) -> Tuple[SessionState, WorkerStatus]:

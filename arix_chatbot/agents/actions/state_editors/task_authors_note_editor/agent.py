@@ -11,7 +11,7 @@ from pathlib import Path
 class TaskAuthorNotesEditor(Worker):
     agent_id: str = aid.TASK_AUTHOR_NOTES_EDITOR
 
-    def __init__(self, manager_id: str = aid.MAIN_ACTION_HANDLER):
+    def __init__(self, manager_id: str = aid.MAIN):
         super().__init__(manager_id)
 
     async def process_task(self, state: SessionState) -> Tuple[SessionState, WorkerStatus]:
@@ -19,23 +19,17 @@ class TaskAuthorNotesEditor(Worker):
         feed_status(state, f"Changing task goal based on user request ...")
         response = edit_section_query(
             state=state,
-            prompt_path=(Path(__file__).parent / "edit_task_goal_prompt.ptxt").as_posix(),
-            config_path=(Path(__file__).parent / "edit_task_goal_config.json").as_posix(),
+            prompt_path=(Path(__file__).parent / "author_notes_prompt.ptxt").as_posix(),
+            config_path=(Path(__file__).parent / "author_notes_config.json").as_posix(),
             edit_job=current_job,
         )
         if response is None:
             return state, WorkerStatus.ERROR
 
-        missing_info = response.get('missing-info-in-goal', None)
+        missing_info = response.get('missing_info', None)
         if missing_info:
             state.response_requests.append(f"The task goal is missing the following information: {missing_info}. Please provide the necessary details.")
 
-        goal_str = ""
-        if response.get("context"):
-            goal_str += f"### Context:\n{response['context']}\n"
-        if response.get("core-objective"):
-            goal_str += f"### Core Objective:\n{response['core-objective']}\n"
-        if goal_str != "":
-            state.task_goal = goal_str.strip()
-
+        if response.get("author_notes"):
+            state.task_author_notes = response['author_notes']
         return state, WorkerStatus.COMPLETED

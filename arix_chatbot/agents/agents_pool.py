@@ -1,4 +1,3 @@
-from arix_chatbot.agents.actions.main_action_orchestrator.agent import MainActionHandler
 from arix_chatbot.agents.actions.state_editors.input_data_editor.agent import InputDataEditor
 from arix_chatbot.agents.actions.state_editors.input_schema_editor.agent import InputSchemaEditor
 from arix_chatbot.agents.actions.state_editors.llm_task_initializer.agent import LlmTaskInitializer
@@ -11,14 +10,12 @@ from arix_chatbot.agents.actions.state_editors.tasl_global_guidlnes_editor.agent
 from arix_chatbot.agents.workflow.history_manager.agent import HistoryManager
 from arix_chatbot.agents.workflow.output_handler.agent import OutputHandler
 from arix_chatbot.agents.workflow.planner.agent import Planner
-from arix_chatbot.agents.workflow.user_intent_router.agent import UserIntentRouter
 from arix_chatbot.agents.main_chat_orchestrator.main_agent import MainChatOrchestrator
 from arix_chatbot.agents.agent_ids import AgentID
 
 
 AGENTS = [
     MainChatOrchestrator(managed_agents=[
-        AgentID.MAIN_ACTION_HANDLER,
         AgentID.OUTPUT_HANDLER,
         AgentID.HISTORY_MANAGER,
         AgentID.PLANNER,

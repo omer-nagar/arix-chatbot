@@ -9,7 +9,7 @@ from typing import Tuple
 class HistoryManager(Worker):
     agent_id: str = aid.HISTORY_MANAGER
 
-    def __init__(self, manager_id: str = aid.MAIN_ACTION_HANDLER):
+    def __init__(self, manager_id: str = aid.MAIN):
         self._config_path = Path(__file__).parent / "history_response_config.json"
         self._prompt_path = Path(__file__).parent / "history_prompt.ptxt"
         super().__init__(manager_id)

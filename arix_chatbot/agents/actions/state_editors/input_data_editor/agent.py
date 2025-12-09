@@ -14,7 +14,7 @@ import uuid
 class InputDataEditor(Worker):
     agent_id: str = aid.INPUT_DATA_EDITOR
 
-    def __init__(self, manager_id: str = aid.MAIN_ACTION_HANDLER):
+    def __init__(self, manager_id: str = aid.MAIN):
         super().__init__(manager_id)
 
     async def process_task(self, state: SessionState) -> Tuple[SessionState, WorkerStatus]:
