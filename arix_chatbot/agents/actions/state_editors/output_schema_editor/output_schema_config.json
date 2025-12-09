@@ -1,0 +1,12 @@
+[
+  {
+    "type": "text_generation",
+    "name": "schema",
+    "description": "Markdown Output Format section containing exactly one fenced json block with a single valid response_config.json schema for the task outputs."
+  },
+  {
+    "type": "text_generation",
+    "name": "missing_info",
+    "description": "Plain-text list of missing, ambiguous, or under-specified details needed to finalize or improve the schema; use bullet points where possible, or an empty string if nothing is missing."
+  }
+]

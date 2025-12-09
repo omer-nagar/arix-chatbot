@@ -1,0 +1,17 @@
+[
+  {
+    "name": "context",
+    "type": "text_generation",
+    "description": "Markdown-style text describing the task setting, domain, and general purpose for the Goal section so a reader understands what world the task belongs to."
+  },
+  {
+    "name": "core-objective",
+    "type": "text_generation",
+    "description": "Markdown-style text (usually 1–2 sentences) stating the single clear end result the task aims to produce, focusing on what is produced rather than how."
+  },
+  {
+    "name": "missing-info-in-goal",
+    "type": "text_generation",
+    "description": "Plain text listing missing, ambiguous, or assumed information about the Goal section; use a short phrase like 'None; the goal is sufficiently specified for now.' if there are no significant gaps."
+  }
+]

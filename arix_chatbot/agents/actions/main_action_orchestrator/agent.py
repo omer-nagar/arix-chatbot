@@ -1,4 +1,4 @@
-from arix_chatbot.jobs.user_interactions import UserIntentRouterJob
+from arix_chatbot.jobs.user_interactions import PlanWorkflowJob
 from arix_chatbot.state_manager.state_store import SessionState, SessionStatus
 from arix_chatbot.agents.agent_ids import AgentID as aid
 from typing import List, Tuple, Union
@@ -20,7 +20,7 @@ class MainActionHandler(Navigator):
         ## STEP 1: Ask for follow-up jobs if there is a pending job to be assigned
         if next_job is not None:
             # there is already a pending job
-            state.add_job(UserIntentRouterJob(
+            state.add_job(PlanWorkflowJob(
                 job_id=aid.USER_INTENT_ROUTER,
                 report_to=self.agent_id,
                 worker_id=aid.USER_INTENT_ROUTER,

@@ -12,7 +12,7 @@ def load_checkpoint(checkpoint: str = Union[None, str], pipeline: AiFactoryPipel
         return None
 
     checkpoint_state = pickle.load(open(checkpoint, "rb"))
-    checkpoint_state.status = SessionStatus.HANDOFF.value
+    checkpoint_state.status = SessionStatus.HANDOFF
     pipeline.state_store.store_state(checkpoint_state.run_id, checkpoint_state)
     return checkpoint_state.run_id
 
@@ -46,10 +46,15 @@ def print_summary(state):
 
 def main(checkpoint_to_load: str = None, checkpoint_save_path: str = None):
     agents_store_ = AgentRegistry(agents=AGENTS)
-    pipeline = AiFactoryPipeline(agents_store=agents_store_, initial_agent=AGENTS[0].agent_id)
+    pipeline = AiFactoryPipeline(agents_store=agents_store_, root_agent=AGENTS[0].agent_id)
 
     run_id = load_checkpoint(checkpoint=checkpoint_to_load, pipeline=pipeline)
-    state = asyncio.run(pipeline.start_run(run_id=run_id))
+    if checkpoint_to_load is None:
+        state = asyncio.run(pipeline.start_run(run_id=run_id))
+    else:
+        user_input = input(">>")
+        asyncio.run(pipeline.inject_human_input(run_id, user_input))
+        state = asyncio.run(pipeline.get_run_state(run_id))
     state = run_human_feedback_loop(state, pipeline)
 
     if checkpoint_save_path is not None:
@@ -62,7 +67,7 @@ def main(checkpoint_to_load: str = None, checkpoint_save_path: str = None):
 
 
 if __name__ == '__main__':
-    # LOAD_CHECKPOINT = "/Users/omernagar/Documents/Data/small_world/checkpoints/state_checkpoint.pkl"
+    # LOAD_CHECKPOINT = "/Users/omernagar/Documents/Data/small_world/checkpoints/deep_dive_task_state_checkpoint.pkl"
     LOAD_CHECKPOINT = None
     SAVE_CHECKPOINT = "/Users/omernagar/Documents/Data/small_world/checkpoints/deep_dive_task_state_checkpoint.pkl"
     # SAVE_CHECKPOINT = None

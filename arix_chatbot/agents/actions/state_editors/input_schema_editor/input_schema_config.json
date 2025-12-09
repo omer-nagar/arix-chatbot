@@ -1,0 +1,12 @@
+[
+  {
+    "name": "schema",
+    "type": "text_generation",
+    "description": "Markdown template representing the input data schema (Data → Input Format) using headings and <<key>> placeholders only, with no examples or instructions."
+  },
+  {
+    "name": "missing_info",
+    "type": "text_generation",
+    "description": "Plain-text description of any missing or ambiguous information needed to finalize the input schema; if nothing important is missing, return a brief confirmation such as 'OK, schema can be considered complete for now.'"
+  }
+]

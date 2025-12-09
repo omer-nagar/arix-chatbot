@@ -1,0 +1,48 @@
+[
+  {
+    "name": "high_level_intent",
+    "type": "text_generation",
+    "description": "High-level categorization of the user’s intent for this turn."
+  },
+  {
+    "name": "workflow",
+    "type": "recurrent",
+    "description": "Ordered list of agent calls the planner wants to schedule for this turn. GENERATE_RESPONSE must always be the final step.",
+    "tasks": [
+      {
+        "name": "agent_id",
+        "type": "multiclass",
+        "description": "Which agent to invoke for this workflow step.",
+        "class_definitions": {
+          "EDIT_INPUT_DATA_DESCRIPTION": "Edit or create the Data > Data Description section (what the input data is, where it comes from, how it looks).",
+          "EDIT_MAIN_GOAL": "Edit or create the Goal section, including Context and Core Objective.",
+          "EDIT_DETAILED_TASK_INSTRUCTIONS": "Edit or create the Detailed Instructions and Task Criteria section (what correct behavior/labels look like).",
+          "EDIT_GLOBAL_GUIDELINES": "Edit or create the Global Guidelines section (cross-cutting principles, preferences, ambiguity handling, etc.).",
+          "EDIT_AUTHOR_NOTE": "Edit or create the Author’s Note section (designer’s high-level intent or priorities).",
+          "EDIT_INPUT_SCHEMA": "Edit or create the Input Format / input schema portion of the spec.",
+          "EDIT_OUTPUT_SCHEMA": "Edit or create the Output Format / output schema portion of the spec.",
+          "GENERATE_RESPONSE": "Generate the user-facing response, with summary, guided questions, clarifications, approvals, and final check; has access to full state."
+        }
+      },
+      {
+        "name": "content",
+        "type": "text_generation",
+        "description": "Detailed, self-contained instruction for this agent: what exactly to do, which sections to modify, and any constraints or style to follow."
+      },
+      {
+        "name": "related_context",
+        "type": "multilabel",
+        "description": "Which assignment/task metadata structures this workflow step primarily depends on or refers to.",
+        "class_definitions": {
+          "task_goal": "The step depends on or refers to the task's Goal section (Context and Core Objective).",
+          "input_data_description": "The step depends on or refers to the Data section describing the source, content, and properties of the input data.",
+          "task_detailed_instructions": "The step depends on or refers to Detailed Instructions and Task Criteria (what correct behavior/labels look like).",
+          "task_global_guidelines": "The step depends on or refers to Global Guidelines (cross-cutting principles, preferences, ambiguity handling, etc.).",
+          "task_author_notes": "The step depends on or refers to the Author’s Note (high-level intent or priorities of the task designer).",
+          "input_data_schema": "The step depends on or refers to the formal schema/structure of the input data (e.g., fields or JSON structure).",
+          "output_data_schema": "The step depends on or refers to the formal schema/structure of the expected output (e.g., labels, fields, JSON structure)."
+        }
+      }
+    ]
+  }
+]

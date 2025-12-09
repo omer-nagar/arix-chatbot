@@ -1,0 +1,5 @@
+{
+  "type": "text_generation",
+  "name": "history_summary",
+  "description": "Updated, concise conversation history summary to be stored as the next `system: history-summary`."
+}

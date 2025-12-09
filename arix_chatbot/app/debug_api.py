@@ -25,7 +25,7 @@ def start_server_in_background() -> threading.Thread:
     t = threading.Thread(target=_serve, daemon=True)
     t.start()
     # Give the server a moment to boot (or poll /health if you prefer)
-    time.sleep(0.8)
+    time.sleep(1)
     return t
 
 

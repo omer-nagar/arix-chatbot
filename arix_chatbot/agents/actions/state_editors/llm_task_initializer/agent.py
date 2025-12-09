@@ -1,7 +1,7 @@
 from arix_chatbot.agents.base.worker import Worker, WorkerStatus
 from arix_chatbot.agents.agent_ids import AgentID as aid
 from arix_chatbot.jobs.job import JobStatus, Job
-from arix_chatbot.jobs.user_interactions import UserIntentRouterJob
+from arix_chatbot.jobs.user_interactions import PlanWorkflowJob
 from arix_chatbot.state_manager.state_store import SessionState, SessionStatus
 from typing import Tuple
 import uuid
@@ -15,7 +15,7 @@ class LlmTaskInitializer(Worker):
 
     async def process_task(self, state: SessionState) -> Tuple[SessionState, WorkerStatus]:
 
-        current_job: UserIntentRouterJob = self.get_last_pending_job(state)
+        current_job: PlanWorkflowJob = self.get_last_pending_job(state)
         job_id = str(uuid.uuid4())
         state.add_job(Job(
             job_id=job_id,

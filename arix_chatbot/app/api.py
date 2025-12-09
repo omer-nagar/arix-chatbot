@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def set_pipeline():
     agents_store_ = AgentRegistry(agents=AGENTS)
-    ai_factory_pipeline = AiFactoryPipeline(agents_store=agents_store_, initial_agent=AGENTS[0].agent_id)
+    ai_factory_pipeline = AiFactoryPipeline(agents_store=agents_store_, root_agent=AGENTS[0].agent_id)
     return ai_factory_pipeline
 
 

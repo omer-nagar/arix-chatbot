@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any, Dict, Mapping, Type, TypeVar, ClassVar
+from typing import Any, Dict, Mapping, Type, TypeVar, ClassVar, Optional, List
 
 from arix_chatbot.jobs import JOB_REGISTRY
 from arix_chatbot.jobs.job_ids import JobID
@@ -27,6 +27,8 @@ class Job(ABC):
     worker_id: str
     status: JobStatus
     turn_index: int
+    content: Optional[str] = None
+    required_context: Optional[List] = None
 
     # Each subclass should override this
     job_type: ClassVar[str] = JobID.BASE

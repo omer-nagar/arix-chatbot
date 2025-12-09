@@ -1,0 +1,61 @@
+{
+  "type": "recurrent",
+  "name": "user_intentions",
+  "description": "List of atomic user intentions extracted from the latest user message for downstream planning while designing a task specification.",
+  "tasks": [
+    {
+      "type": "text_generation",
+      "name": "main_intent",
+      "description": "Single, concise sentence describing what the user wants or expects for this intention, typically in relation to some part of the task spec."
+    },
+    {
+      "type": "multiclass",
+      "name": "intent_category",
+      "description": "High-level category of this intent.",
+      "class_definitions": {
+        "ask_question": "The user is asking for information or an explanation (e.g., how to design part of the task spec).",
+        "request_action": "The user is asking the assistant/system to perform an action or make a change (e.g., rewrite a section of the task spec).",
+        "provide_information": "The user is providing information or data about their task, domain, or constraints without directly requesting an action.",
+        "clarification_or_followup": "The user is clarifying a previous turn, refining a request, or following up on earlier content about the task spec.",
+        "feedback_or_evaluation": "The user is giving feedback, complaints, or evaluation about the assistant/system or its proposed task spec.",
+        "meta_or_configuration": "The user is changing instructions, preferences, or configuration about how the assistant/system should help design the task.",
+        "chit_chat": "The user is engaging in small talk or social interaction without a concrete task-spec-related goal."
+      }
+    },
+    {
+      "type": "numeric",
+      "name": "priority",
+      "description": "Relative priority of this intent from 1 (lowest) to 5 (highest), based on urgency, blocking nature for progressing the task spec, or explicit user emphasis.",
+      "vmin": 1,
+      "vmax": 5
+    },
+    {
+      "type": "multiclass",
+      "name": "clarification_status",
+      "description": "Whether additional clarification from the user is required before acting on this intent.",
+      "class_definitions": {
+        "clarification_required": "More information from the user is needed before the planner can safely or effectively act on this intent.",
+        "clarification_not_required": "The intent is clear enough for the planner to proceed without additional clarification from the user."
+      }
+    },
+    {
+      "type": "text_generation",
+      "name": "clarification_question",
+      "description": "If clarification_status is 'clarification_required', the single most important clarification question to ask the user; otherwise an empty string."
+    },
+    {
+      "type": "multilabel",
+      "name": "related_context",
+      "description": "Which assignment/task metadata structures this intent primarily depends on or refers to.",
+      "class_definitions": {
+        "task_goal": "The intent depends on or refers to the task's Goal section (Context and Core Objective).",
+        "input_data_description": "The intent depends on or refers to the Data section describing the source, content, and properties of the input data.",
+        "task_detailed_instructions": "The intent depends on or refers to Detailed Instructions and Task Criteria (what correct behavior/labels look like).",
+        "task_global_guidelines": "The intent depends on or refers to Global Guidelines (cross-cutting principles, preferences, ambiguity handling, etc.).",
+        "task_author_notes": "The intent depends on or refers to the Author’s Note (high-level intent or priorities of the task designer).",
+        "input_data_schema": "The intent depends on or refers to the formal schema/structure of the input data (e.g., fields or JSON structure).",
+        "output_data_schema": "The intent depends on or refers to the formal schema/structure of the expected output (e.g., labels, fields, JSON structure)."
+      }
+    }
+  ]
+}

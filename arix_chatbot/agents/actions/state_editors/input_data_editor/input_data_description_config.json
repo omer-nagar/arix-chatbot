@@ -1,0 +1,12 @@
+[
+  {
+    "name": "data_description",
+    "type": "text_generation",
+    "description": "Markdown description of the task input data: where it comes from, what it looks like, typical length, style, variability, and noise; no labels or instructions."
+  },
+  {
+    "name": "missing_info",
+    "type": "text_generation",
+    "description": "Plain-text (preferably bullet-listed) summary of missing or ambiguous information needed to fully define the data description section; 'None.' if nothing is missing."
+  }
+]

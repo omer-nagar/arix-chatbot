@@ -1,0 +1,52 @@
+[
+  {
+    "name": "description",
+    "type": "text_generation",
+    "description": "Short prose definition of what it means for the task to be performed correctly at the level of the Detailed Instructions and Task Criteria section."
+  },
+  {
+    "name": "logical_units",
+    "type": "recurrent",
+    "description": "List of logical units that correspond to fields or subfields in the output schema, each with its own tagged criteria lines.",
+    "tasks": [
+      {
+        "name": "unit_name",
+        "type": "text_generation",
+        "description": "Name of the logical unit; must match or obviously correspond to a field or subfield in the task's output schema (e.g. 'label', 'label.span', 'entity.type')."
+      },
+      {
+        "name": "criteria",
+        "type": "recurrent",
+        "description": "Tagged criteria entries that specify how this logical unit should behave and be judged.",
+        "tasks": [
+          {
+            "name": "criterion_type",
+            "type": "multiclass",
+            "description": "Tag indicating the kind of criterion line.",
+            "class_definitions": {
+              "description": "Defines what this logical unit represents and its conceptual role.",
+              "inclusion": "Specifies what must be included or counted as valid instances for this unit.",
+              "exclusion": "Specifies what must not be included or counted as valid instances for this unit.",
+              "evidence": "Defines the textual or structural evidence required in the input for this unit to be instantiated.",
+              "scope": "Defines how instances of this unit should cover the input (e.g. one per span, all occurrences, at most one per document).",
+              "validity": "Constraints that make a particular instance of this unit acceptable or well-formed.",
+              "threshold": "Quantitative or qualitative thresholds, such as length limits, count limits, or confidence-like requirements.",
+              "note": "Any additional clarifying note or rule that does not fit the other types.",
+              "other": "Any other criterion type that the model must name explicitly in the text when used."
+            }
+          },
+          {
+            "name": "criterion_content",
+            "type": "text_generation",
+            "description": "Plain-text content of the criterion line, written as a clear, standalone rule or description."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "missing_info",
+    "type": "text_generation",
+    "description": "Plain-text description of missing or ambiguous information that should be clarified with the user to fully specify the Detailed Instructions and Task Criteria section. Use a short paragraph or bullet-style list; if nothing is missing, return 'none'."
+  }
+]

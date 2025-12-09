@@ -102,7 +102,7 @@ class MainNavigator(Navigator):
             self.get_transfer_last_user_massage(state, 'deepDiveData', 'deepDiveTaskConfig')
             next_agent = 'deepDiveTaskConfig'
         else:
-            state.status = SessionStatus.COMPLETED.value
+            state.status = SessionStatus.DONE.value
             self.send_message(state, "user", {"type": "notification", "msg": DEFINITION_COMPLETE})
         return state, next_agent
 

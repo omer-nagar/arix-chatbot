@@ -1,0 +1,32 @@
+##ROLE##
+system
+##CONTENT##
+# Conversation History
+{{__conversation_history__}}
+
+##ROLE##
+assistant
+##CONTENT##
+{{__latest_assistant_response__}}
+
+##ROLE##
+user
+##CONTENT##
+{{__latest_user_message__}}
+
+##ROLE##
+system
+##CONTENT##
+## Actions Log
+{{__actions_stack__}}
+
+##ROLE##
+system
+##CONTENT##
+You will receive, in the following system message, a concrete task to perform.
+When that task message arrives, treat it as your primary instruction.
+Execute that task while taking into account the Conversation History, the Latest Assistant Response, the Latest User Message, and the Actions Log provided above.
+
+
+
+

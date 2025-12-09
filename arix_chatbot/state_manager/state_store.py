@@ -27,6 +27,19 @@ class SessionStatus:
 
 
 @dataclass
+class Action:
+    agent_id: str
+    action: str
+
+    def todict(self) -> Dict[str, Any]:
+        return {
+            "agent_id": self.agent_id,
+            "action": self.action
+        }
+
+
+
+@dataclass
 class SessionState:
     # STATE BASIC INFO
     run_id: str
@@ -42,7 +55,7 @@ class SessionState:
     # CHAT HISTORY
     turn_index: int = 0
     chat_full_history: List[Dict[str, Any]] = field(default_factory=list)
-    chat_summary: str = ""
+    chat_summary: str = None
     last_user_message: Optional[Dict[str, Any]] = None
     next_response: Optional[Dict[str, Any]] = None
 
@@ -51,21 +64,26 @@ class SessionState:
 
     # ASSIGNMENT DATA
     task_goal: Dict[str, Any] = field(default_factory=dict)
-    input_data_description: str = ""
+    input_data_description: str = None
     task_detailed_instructions: Dict[str, Any] = field(default_factory=dict)
     task_global_guidelines: Dict[str, Any] = field(default_factory=dict)
-    task_author_notes: str = ""
+    task_author_notes: str = None
 
     # DATA SCHEMA
     input_data_schema: Dict[str, Any] = field(default_factory=dict)
     output_data_schema: Dict[str, Any] = field(default_factory=dict)
+
+    # CHAT LOG
+    chat_action_stack: List[Dict[str, Any]] = field(default_factory=list)
+
+    # RESPONSE REQUESTS
+    response_requests: List[str] = field(default_factory=list)
 
     # STATE DATA
     pipeline: List[str] = field(default_factory=list)
     agents_inbox: Dict[str, Any] = field(default_factory=dict)
     agents_context: Dict[str, Any] = field(default_factory=dict)
     user_outbox: List[Optional[dict]] = field(default_factory=list)
-    chat_turn_log: List[Dict[str, Any]] = field(default_factory=list)
     timeline: List[Dict[str, Any]] = field(default_factory=list)
 
     # METADATA
@@ -74,9 +92,8 @@ class SessionState:
     artifacts: Dict[str, Any] = field(default_factory=dict)
     error: Optional[str] = None
 
-    def add_to_chat_log(self, action: Dict[str, Any]) -> None:
-        action['turn_index'] = self.turn_index
-        self.chat_turn_log.append(action)
+    def report_action(self, action: Action) -> None:
+        self.chat_action_stack.append(action.todict())
 
     def add_job(self, job: Job) -> None:
         job_id = str(job.job_id)
@@ -86,6 +103,9 @@ class SessionState:
         self.job_status[job_id] = job_status
 
     def get_job(self, job_id: str) -> Any:
+        if job_id not in self.jobs:
+            return None
+
         cls = JOB_REGISTRY.get(self.job_types.get(str(job_id)))
         job = cls.from_dict(self.jobs.get(job_id)) if job_id in self.jobs else None
         if job.turn_index != self.turn_index:
@@ -131,8 +151,17 @@ class SessionState:
     def set_status(self, new_status: str) -> None:
         self.status = new_status
 
-    def get_status(self) -> SessionStatus:
+    def get_status(self) -> str:
         return self.status
+
+    def clear_before_turn(self) -> None:
+        self.agents_inbox = {}
+        self.agents_context = {}
+        self.user_outbox = []
+        self.chat_action_stack = []
+        self.jobs = {}
+        self.job_status = {}
+        self.job_types = {}
 
     def todict(self) -> Dict[str, Any]:
         return asdict(self)

@@ -19,7 +19,7 @@ class BaseAgent(ABC):
         self.manager_id = manager_id
 
     def log_action_to_chat_log(self, state, action: str) -> None:
-        state.add_to_chat_log({
+        state.report_action({
             "agent_id": self.agent_id,
             "action": action
         })
@@ -56,7 +56,7 @@ class BaseAgent(ABC):
         return inbox
 
     def clear_inbox(self, state: SessionState) -> None:
-        state.agents_inbox[self.agent_id] = []
+        state.agents_inbox[self.agent_id] = {}
 
     def send_message(self, state: SessionState, recipient: str, msg: Dict, mode="overwrite", sender=None) -> None:
         """
@@ -110,7 +110,8 @@ class BaseAgent(ABC):
             return self.init_context(state)
         return context
 
-    def update_state_context(self, state: SessionState, context: Dict) -> None:
+    def update_context(self, state: SessionState, context: Dict, **kwargs) -> None:
+        context.update(kwargs)
         state.agents_context[self.agent_id] = context
 
     async def handle(self, state: SessionState) -> SessionState:

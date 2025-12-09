@@ -1,0 +1,5 @@
+{
+  "name": "response",
+  "type": "text_generation",
+  "description": "Markdown-formatted chat reply that follows best practices for fluent, structured conversation, guiding the user to iteratively build an air-tight NLP task definition with clear schemas."
+}
